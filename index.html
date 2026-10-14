@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>環遊世界</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            box-sizing: border-box;
+            overflow-x: hidden; 
+        }
+
+        details { 
+            margin-bottom: 10px; 
+        }
+       
+        summary { 
+            font-size:24px;
+            display: flex;
+            align-items: center;
+            font-weight: bold; 
+            cursor: pointer; 
+            color: #336699; 
+        } 
+
+        summary::before { 
+            content: "▶"; 
+            display: inline-block; 
+            margin-right: 5px; 
+            transition: transform 0.3s; 
+        }
+
+        details[open] summary::before { 
+            transform: rotate(90deg); 
+        }
+
+        details[open] summary { 
+            color: #ff6600; 
+        }
+
+        P{
+            text-indent: 1cm;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: -300px;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 350px;
+            background-color: #333;
+            color: white;
+            transition: right 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar:hover {
+            right: 0;
+        }
+
+        .sidebar .toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        header #page-top { 
+            position: relative; 
+            top: 10px; /* 確保標題在滾動文字之上 */
+        }
+
+        .navbar { 
+            background-color: #000; 
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+            top: 100px; /* 將導航列向下移動 */
+            z-index: 999; /* 導覽列層級設置為較低值 */
+        }
+
+        .navbar a { 
+            margin: 0 30px; 
+            text-decoration: none;
+            color: #fff; 
+            transition: transform 0.5s ease;
+         
+            display: inline-block; 
+        }
+
+        .navbar a:hover {
+            transform: scale(1.4);
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .gif-container {
+            position: relative;
+            text-align: center;
+            width: 100%;
+            height:850px; /* 可根據需要調整大小 */
+        }
+        .gif-container img {
+            width: 100%;
+            object-fit: cover;
+            max-width: auto; /* 最大寬度，避免過大 */
+            height: 850px; /* 自動調整高度以保持比例 */
+        }
+        .gif-container .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: hsl(0, 100%, 100%);
+            font-size: 35px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .black-bar { 
+            background-color: #000; 
+            height: 4px; 
+            width: 100%; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-areas:
+                "header header"
+                "body sidebar"
+                "footer footer";
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            text-align: center;
+            background-color: #f3e2c7;
+            font-size: 20px;
+            padding:20px;
+            font-weight: bold;
+            border-bottom: 2px solid #d2b48c;
+        }
+
+        .body {
+            grid-area: body;
+            padding: 20px;
+            background-color: #fff;
+            border-right: 1px solid #d2b48c;
+        }
+
+        main {
+            grid-area: body;
+            background-color: #fff4e6;
+            padding: 1em;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: #ffe6cc;
+            padding: 1em;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #f4e3c1;
+            text-align: center;
+            padding: 1em;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #2980b9;
+            color: #fff;
+        }
+        td {
+            background-color: #ecf0f1;
+        }
+
+        img{
+            float:right;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header><font size="8"><div  id="page-top">環遊世界</div></font>
+            <nav class="navbar"  id="page-top">
+                    <div class="menu-toggle" id="mobile-menu">
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                    </div>
+                    <ul class="nav-list">
+                      <li><a href="#目錄">目錄</a></li>
+                      <li><a href="#各州介紹">各州介紹</a></li>
+                      <li><a href="#My Favorite">My Favorite</a></li>
+                      <li><a href="#網站架構 | 推薦網站">網站架構 | 推薦網站</a></li>
+                    </ul>
+                  </nav>
+                  <div class="gif-container">
+                    <img src="images/環遊世界_darker.gif" alt="GIF">
+                    <div class="text-overlay">製作人 : 林靖庭</div>
+                </div>
+                  <script src="script.js"></script></header>
+        <main><h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255)"><dt id="各州介紹">各州介紹</dt></h1>
+            <ul>
+             <ol type="A">
+              <details>
+                <summary>亞洲</summary>
+                <img src="images/亞洲地圖.jpg" width="160">
+               <p style="text-indent:1cm;font:20px/25px 標楷體">是<b>歐亞非大陸</b>或<b>歐亞大陸東部</b>的一個區域，總面積約4457.9萬平方公里，約占地球總面積的8.6%。約45億人，佔世界總人口約61%（2019年），
+               為七大洲中面積最大，人口最多的一個洲，另外它<b>也是世界三大宗宗教佛教、伊斯蘭教和基督教的發源地</b>。</p>
+              </details>
+              <details>
+                <summary>北美洲</summary>
+                <img src="images/北美洲地圖.jpg" width="160">
+               <p style="text-indent:1cm;font:20px/25px 標楷體">位於<b>北半球，東臨大西洋，西臨太平洋，北瀕北冰洋，南以巴拿馬運河為界與南美洲劃分</b>。面積2422.8萬平方公里（包括附近島嶼），約佔當今地球陸地總面積的16.2％，是世界第3大洲。人口5億2872萬（2008年七月），居世界第4位。
+               地跨熱帶、溫帶、寒帶，氣候覆雜多樣。<b>以溫帶大陸性氣候和亞寒帶針葉林氣候為主</b>。</p>
+              </details>
+              <details>
+                <summary>南美洲</summary>
+                <img src="images/南美洲地圖.jpg" width="110">
+               <p style="text-indent:1cm;font:20px/25px 標楷體">位於<b>西半球南部（或南半球）</b>，西臨南太平洋，西面為太平洋板塊及納斯卡板塊。東面則是大西洋，北面則是加勒比海。西面有海拔數千公尺高聳的安地斯山脈，東向則主要是平原，包括亞馬遜河和亞馬遜熱帶雨林。
+               面積達1,784萬平方公里，直到2011年，南美洲人口已有3億8千萬，世界排名第五。</p>
+              </details>
+              <details>
+                <summary>歐洲</summary>
+                <img src="images/歐洲地圖.jpg" width="160">
+                 <p style="text-indent:1cm;font:20px/25px 標楷體">是位於<b>歐亞大陸西北部</b>的一個洲，面積約10,180,000平方公里。總人口達約7.4億 （截止2024年3月中旬）。歐陸最北端是挪威的北角，最南端是西班牙的馬羅基角，歐洲是世界上第二小的洲、大陸。<b>與亞洲合稱為歐亞大陸</b>，而<b>與亞洲、非洲合稱為歐亞非大陸</b>。</p>
+              </details>
+              <details>
+                <summary>大洋洲</summary>
+                <img src="images/大洋洲地圖.jpg" width="130">
+                 <p style="text-indent:1cm;font:20px/25px 標楷體">舊譯為澳薩尼亞洲（簡稱澳洲）是指地緣政治學上，將澳大利亞洲與太平洋諸島嶼併稱的地理區域。占全球總陸地面積的6%。大洋洲包括4個區域：澳大拉西亞，美拉尼西亞，密克羅尼西亞、玻里尼西亞，橫跨了東半球和西半球。面積為8,525,989平方公里，人口超過4,100萬。</p>
+              </details>
+              <details>
+                <summary>非洲</summary>
+                <img src="images/非洲地圖.jpg" width="160">
+                 <p style="text-indent:1cm;font:20px/25px 標楷體">位於<b>地球東半球西部，歐洲之南，亞洲以西，地跨赤道南北</b>。面積為29,648,481平方公里，占全球總陸地面積的20.4%。人口約為1,429,244,522人（截止到2022年），目前約占全球總人口17%。多樣的氣候是豐富生態資源與礦產資源的寶地，同時也是世界古人類和古文明的發祥地之一。</p>
+              </details>
+              <details>
+                <summary>南極洲</summary>
+                <img src="images/南極洲地圖.jpg" width="130">
+                 <p style="text-indent:1cm;font:20px/25px 標楷體">是地球最南端的洲，位於南半球的南極區，是地理南極的所在地。面積約為1,400萬平方公里，約占地球陸地面積的十分之一，排在亞洲、非洲、北美洲和南美洲之後。是地球上最寒冷、乾燥、多風的大陸，是<b>唯一橫跨所有經線的洲</b>。</p>
+              </details>
+                </ol>
+            </ul> 
+            <br>
+            <br>
+            <hr>
+            <h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255)"><dt id="My Favorite">My Favorite</dt></h1>
+            <div class="content-container">
+                <h2 id="我最想去各州中的那些國家">我最想去各州中的那些國家</h2>
+        
+                <ul>
+                    <h2 style="font:30px 標楷體"><li><a href="亞洲.html"><dt id="亞洲">亞洲</dt></a></li></h2>
+                    <h3>
+                        <table>
+                            <tr>
+                                <th>國家</th>
+                                <th>地區</th>
+                                <th>景點</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="3">日本</th>
+                                <th>大阪</th>
+                                <th>
+                                    <ul>
+                                        <li>道頓堀</li>
+                                    </ul>    
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>東京</th>
+                                <th>
+                                    <ul>
+                                        <li>吉卜力美術館</li>
+                                        <li>富士山</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>京都</th>
+                                <th>
+                                    <ul>
+                                        <li>清水寺</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">韓國</th>
+                                <th>首爾</th>
+                                <th>
+                                    <ul>
+                                        <li>北村韓屋村</li>
+                                        <li>明洞</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>釜山</th>
+                                <th>
+                                    <ul>
+                                        <li>樂天世界</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th rowspan="3">中國</th>
+                                <th>北京</th>
+                                <th>
+                                    <ul>
+                                        <li>慕田峪長城</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>上海</th>
+                                <th>
+                                    <ul>
+                                        <li>東方明珠</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                        </table>
+                    </h3>
+        
+                    <h2 style="font:30px 標楷體"><li><a href="北美洲.html"><dt id="北美洲">北美洲</dt></a></li></h2>
+                    <h3>
+                        <table>
+                            <tr>
+                                <th>國家</th>
+                                <th>地區</th>
+                                <th>景點</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">美國</th>
+                                <th>紐約</th>
+                                <th>
+                                    <ul>
+                                        <li>時代廣場</li>
+                                        <li>自由女神像</li>
+                                        <li>中央公園</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>阿拉斯加</th>
+                                <th>
+                                    <ul>
+                                        <li>極光列車</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">加拿大</th>
+                                <th>阿爾伯塔省</th>
+                                <th>
+                                    <ul>
+                                        <li>冰原公路</li>
+                                    </ul>    
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>安大略省</th>
+                                <th>
+                                    <ul>
+                                        <li>尼亞加拉大瀑布</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                        </table>
+                    </h3>
+        
+                    <h2 style="font:30px 標楷體"><li><a href="南美洲.html"><dt id="南美洲">南美洲</dt></a></li></h2>
+                    <h3>
+                        <table>
+                            <tr>
+                                <th>國家</th>
+                                <th>阿根廷</th>
+                            </tr>
+                            <tr>
+                                <th>景點</th>
+                                <th>
+                                    <ul>
+                                        <li>科爾多瓦</li>
+                                        <li>布宜諾斯艾利斯</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                        </table>
+                    </h3>
+        
+                    <h2 style="font:30px 標楷體"><li><a href="歐洲.html"><dt id="歐洲"></dt>歐洲</a></li></h2>
+                    <h3>
+                        <table>
+                            <tr>
+                                <th>國家</th>
+                                <th>景點</th>
+                            </tr>
+                            <tr>
+                                <th>荷蘭</th>
+                                <th>
+                                    <ul>
+                                        <li>梵谷博物館</li>
+                                        <li>阿姆斯特丹運河遊船</li>
+                                        <li>小孩堤防－埃爾斯豪特風車群</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>法國</th>
+                                <th>
+                                    <ul>
+                                        <li>羅浮宮</li>
+                                        <li>凱旋門</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>冰島</th>
+                                <th>
+                                    <ul>
+                                        <li>藍色秘境瀑布</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                        </table>
+                    </h3>
+        
+                    <h2 style="font:30px 標楷體"><li><a href="大洋洲.html"><dt id="大洋洲"></dt>大洋洲</a></li></h2>
+                    <h3>
+                        <table>
+                            <tr>
+                                <th>國家</th>
+                                <th>澳大利亞</th>
+                            </tr>
+                            <tr>
+                                <th>景點</th>
+                                <th>
+                                    <ul>
+                                        <li>大堡礁</li>
+                                        <li>雪梨歌劇院</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                        </table>
+                    </h3>
+                    <h2 style="font:30px 標楷體"><li><a href="非洲.html"><dt id="非洲"></dt>非洲</a></li></h2>
+                    <h3>
+                        <table>
+                            <tr>
+                                <th>國家</th>
+                                <th>埃及</th>
+                            </tr>
+                            <tr>
+                                <th>景點</th>
+                                <th>
+                                    <ul>
+                                        <li>大埃及博物館</li>
+                                        <li>阿布辛貝神殿</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                        </table>
+                    </h3>
+                </ul>
+            </div>
+        </main>
+        <aside><dt id="目錄"><h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255)">目錄</h1></dt>
+        <ul>
+          <ol type="A">
+             <h2><li><a href="#各州介紹" >各州介紹</a></li></h2>
+              <ul>
+               <h2><li><a href="#亞洲">亞洲</a></li></h2>
+               <h2><li><a href="#北美洲">北美洲</a></li></h2>
+               <h2><li><a href="#南美洲">南美洲</a></li></h2>
+               <h2><li><a href="#歐洲">歐洲</a></li></h2>
+               <h2><li><a href="#大洋洲">大洋洲</a></li></h2>
+               <h2><li><a href="#非洲">非洲</a></li></h2>
+              </ul>
+              <h2><li><a href="#My Favorite">My Favorite</a></li></h2>
+              <h2><li><a href="#網站架構 | 推薦網站">網站架構 | 推薦網站</a></li></h2>
+          </ol>
+        </ul>
+        <hr>
+        <h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255) ">影片詳細解說</h1>
+        <h2 style="font:28px 標楷體"><ul>
+            <li><a href="https://www.youtube.com/watch?v=0OixjYxDGnI">亞洲介紹</a></li>
+            <li><a href="https://www.youtube.com/watch?v=slI2dBBwcyw&source_ve_path=OTY3MTQ">北美洲介紹</a></li>
+            <li><a href="https://www.youtube.com/watch?v=YlXoiJccarg">南美洲介紹</a></li>
+            <li><a href="https://www.youtube.com/watch?v=II9XAoj1AdQ&source_ve_path=OTY3MTQ">歐洲介紹</a></li>
+            <li><a href="https://www.youtube.com/watch?v=tCvZvwz2IB4&source_ve_path=OTY3MTQ">大洋洲介紹</a></li>
+            <li><a href="https://www.youtube.com/watch?v=fMoEcAdo600">非州介紹</a></li>
+            <li><a href="https://www.youtube.com/watch?v=v6xNm_6nYe0">南極洲介紹</a></li>
+        </ul></h2>
+        </aside>
+        <footer><div  id="page-bottom"><h2><dt id="網站架構 | 推薦網站"  id="page-bottom"><a href="網站架構.html">網站架構</a> | <a href="推薦網站.html">推薦網站</a></dt></h2></div></footer>
+        <div class="sidebar">
+            <div class="toggle">☰</div>
+            <div class="content"style="font:italic 20px/25px 標楷體">
+                <ul>
+                    <h3><li><a href="#page-top"><span style="color:#fff;">頁首</span></a></li></h3>
+                    <h3><li><a href="#目錄"><span style="color:#fff;">目錄</span></a></li></h3>
+                    <h3><li><a href="#各州介紹"><span style="color:#fff;">各州介紹</span></a></li></h3>
+                    <h3><li><a href="#My Favorite"><span style="color:#fff;">My Favorite</span></a></li></h3>
+                    <h3><li><a href="#網站架構 | 推薦網站"><span style="color:#fff;">網站架構 | 推薦網站</span></a></li></h3>
+                    <h3><li><a href="#page-bottom"><span style="color:#fff;">頁尾</span></a></li></h3>
+                </ul>
+            </div>
+        </div>
+</body>
+</html>
+</html>

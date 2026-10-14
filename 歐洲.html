@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite 亞洲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+        .header, .footer {
+            padding: 5px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #000;
+        }
+        .body {
+            padding: 3px;
+            border-bottom: 1px solid #000;
+        }
+        .navbar {
+            background-color: #000;
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar li {
+            padding: 10px 40px;
+            position: relative;
+        }
+        .navbar a {
+            margin: 0 30px; 
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 22px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .black-bar { 
+            background-color: #000; 
+            height: 5px; 
+            width: 100%; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0;
+        }
+
+        .menu-toggle .bar {
+            height: 3px;
+            width: 25px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+        .navbar li:hover .dropdown-content {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar ul.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .image-gallery img {
+            height: auto;
+            border-style: solid;
+            border-width: 6px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            cursor: pointer;
+        }
+        .image-gallery a:hover img {
+            transform: scale(1.2);
+        }
+
+        .m-image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: -200px;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 600px;
+            background-color: #333;
+            color: white;
+            transition: right 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar:hover {
+            right: 0;
+        }
+
+        .sidebar .toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .fuji-style {
+            border: 6px solid #000;
+            transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fuji-style:hover {
+            transform: scale(0.2);
+            opacity: 0.9;
+        }
+
+        /* 提示文字 */
+        a[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: hwb(162 6% 57%);
+            color: #fff;
+        }
+        td {
+            background-color: #ecf0f1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        .carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    position: relative;
+    flex: 0 0 100%;
+}
+.carousel-images img {
+    width: 100%;
+    flex-shrink: 0;
+}
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+.carousel-indicators span {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.carousel-indicators span.active {
+    background-color: #000;
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.text-overlay {
+    position: absolute;
+    bottom:25px; /* 距離底部指示器的距離 */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white; /* 文字顏色 */
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold; /* 加粗以提升可見性 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* 增加文字陰影提高對比 */
+    background: none; /* 移除背景 */
+    padding: 0; /* 移除內距 */
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+.carousel-indicators .active {
+    background: #333;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+    .footer-link {
+            display: inline-block;
+            background-color: hsl(148, 73%, 34%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            background-color: hsl(123, 60%, 31%);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="page-top">
+            <header><h1>歐洲</h1>
+            <nav class="navbar">
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-list">
+                    <li class="dropdown">
+                        <a href="#荷蘭">荷蘭</a>
+                        <div class="dropdown-content">
+                            <a href="#梵谷博物館">梵谷博物館</a>
+                            <a href="#阿姆斯特丹運河遊船">阿姆斯特丹運河遊船</a>
+                            <a href="#小孩堤防">小孩堤防</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#法國">法國</a>
+                        <div class="dropdown-content">
+                            <a href="#羅浮宮">羅浮宮</a>
+                            <a href="#凱旋門">凱旋門</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#冰島">冰島</a>
+                        <div class="dropdown-content">
+                            <a href="#藍色秘境瀑布">藍色秘境瀑布</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <script src="script.js"></script>
+            <div class="carousel">
+                <div class="carousel-images">
+                    <div class="carousel-item">
+                        <img src="images/荷蘭.jpg" alt="圖片1">
+                        <div class="text-overlay">
+                            <h3>荷蘭</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/荷蘭-1.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>荷蘭-2</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/法國.jpg" alt="圖片3">
+                        <div class="text-overlay">
+                            <h3>法國-艾菲爾鐵塔</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/法國-1.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>法國-巴黎凱旋門</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/冰島.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>冰島-Blue Lagoon</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/冰島-1.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>冰島</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators">
+                    <span data-index="0" class="active"></span>
+                    <span data-index="1"></span>
+                    <span data-index="2"></span>
+                    <span data-index="3"></span>
+                    <span data-index="4"></span>
+                    <span data-index="5"></span>
+                </div>
+                <button class="carousel-button prev">&lt;</button>
+                <button class="carousel-button next">&gt;</button>
+                
+                </div>
+            <script src="輪播-1.js"></script>
+            </header>
+        </div>
+        <div class="body">
+           <h1><dt id="荷蘭">荷蘭</dt></h1>
+            <ol type="A">
+             <h2><li><dt id="梵谷博物館">梵谷博物館</dt></li></h2>
+              <p style="text-indent:1cm;font:18px 標楷體"><font color="red">收藏最多梵谷畫作聞名遐邇</font>，約有200幅油畫、500幅素描，以及850封完整的與弟弟往來的書信之手稿，其次則是荷蘭的庫勒-穆勒博物館</p>
+              <ul style="font:18px 標楷體">
+                <li>交通：從阿姆斯特丹中央火奢站(Amsterdam Centraal)乘搭2或12號電車至Van Baerlestraat站</li>
+                <li>營業時間：09:00~18:00</li>
+                <li>門票：成人22歐，18歲以下、持荷蘭博物館卡、阿姆斯特丹城市卡免費</li>
+                <li>官網：<a href="https://www.vangoghmuseum.nl/en/visit/tickets-and-ticket-prices" target="_blank">https://www.vangoghmuseum.nl/en/visit/tickets-and-ticket-prices</a></li>  
+              </ul>
+              <p><div class="image-gallery">
+                <img src="images/梵谷博物館.jpg" width="370" style="border-style:solid; border-width:6px;" title="梵谷博物館">
+                <img src="images/梵谷博物館-1.jpg" width="370" style="border-style:solid; border-width:6px;" title="梵谷博物館-2">
+              </div></p>
+             <h2><li><dt id="阿姆斯特丹運河遊船">阿姆斯特丹運河遊船</dt></li></h2>
+               <p style="text-indent:1cm;font:18px 標楷體">除了作為16世紀末至17世紀的成功城市規劃範例，現時也<font color="red">被列為世界文化遺產之一</font>。總長度超過100公里的運河網絡橫跨整個城市，形成了近百個島嶼和一千多條橋樑。
+                運河兩岸有許多迷人的建築、餐廳、阿姆斯特丹標誌性的狹長房屋和景點，所以遊船絕對是到訪阿姆斯特丹必訪的體驗。</p>
+               <ul style="font:18px 標楷體">
+                <li>游船時間：通常為一個小時至一個半小時，但若有搭配餐點與飲品的話，則有到二個小時。</li>
+                <li>費用：只有遊船且搭大船的話，大約18歐，若是搭配熱門景點票券，像是梵谷博物館、國家博物館與海尼根博物館等，則票價會更便宜</li>
+                <li>官網：<a href="http://www.holland.com/global/tourism/article/canals-of-amsterdam.htm" target="_blank">http://www.holland.com/global/tourism/article/canals-of-amsterdam.htm</a></li>
+                <li>開放時間：基本上白天在早上10點開始，到下午5點或者6點結束，視季節不同。</li>
+                <li>交通：上下船都是在同一個地方，位於火車站對面的碼頭。</li>
+               </ul>
+               <p><div class="image-gallery">
+                <img src="images/阿姆斯特丹運河遊船.jpg" width="370" style="border-style:solid; border-width:6px;" title="阿姆斯特丹運河遊船">
+                <img src="images/阿姆斯特丹運河遊船-1.jpg" width="370" style="border-style:solid; border-width:6px;" title="阿姆斯特丹運河遊船-2">
+               </div></p>
+             <h2><li><dt id="小孩堤防">小孩堤防</dt></li></h2>
+                <p style="text-indent:1cm;font:18px 標楷體"><font color="red">1997年列入了聯合國教科文組織的世界遺產名錄</font>。這19座風車，呈風車步間的形式，是一個旅遊觀光地。其中一個靠近小孩堤防村的
+                    風車在夏季供遊客參觀。遊客可步行或騎自行車參觀這成排的風車。</p>
+                <ul style="font:18px 標楷體">
+                    <li>開放時間：10:30－16:00一定有開放，細節請看<a href="https://kinderdijk.com/practical-information/opening-hours/" target="_blank">官網說明</a></li>
+                    <li>票價：€ 18，週末貴€ 1.5；包含在票價內的設施請參考<a href="https://kinderdijk.com/to-do-in-kinderdijk/" target="_blank">這個網頁</a></li>
+                    <li>交通方式：請參考<a href="https://kinderdijk.com/practical-information/directions-address/" target="_blank">小孩堤防官網說明</a>，可以走水路或者陸路，若選擇走水路最方便的方式是搭乘由伊拉斯謨橋出發到Kinderdijk, <br>Molenkade的Waterbus，直達但是班次比較少，要抓好時間</li>
+                </ul>
+                <p><div class="image-gallery">
+                    <img src="images/小孩堤防.jpg" width="370" style="border-style:solid; border-width:6px;" title="小孩堤防">
+                    <img src="images/小孩堤防-1.jpg" width="370" style="border-style:solid; border-width:6px;" title="小孩堤防-2">
+                </div></p>
+            </ol>
+            <br>
+            <hr>
+            <h1><dt id="法國">法國</dt></h1>
+                <ol type="A">
+                    <h2><li><dt id="羅浮宮">羅浮宮</dt></li></h2>
+                        <p style="text-indent:1cm;font:18px 標楷體">原為12世紀王宮的羅浮宮，1793年成為向民眾開放的博物館後，<font color="red">展示大量來自世界各地的重要藝術品</font>，包括達文西《蒙娜麗莎》和古希臘「米洛的維納斯」等等。
+                            羅浮宮本身就是一座壯麗的宮殿傑作，以及館內從古代文明到19世紀的多樣文化遺產，無論是藝術愛好者或歷史迷，都會陶醉在這深厚又獨特的文化聖地。</p>
+                        <ul style="font:18px 標楷體">
+                            <li>開放時間：週一、三、四、六、日的 9:00 ~ 18:00，週五則是 9:00 ~ 21:45。公休日為每週二、1/1、5/1、12/25</li>
+                            <li>交通：可以搭乘地鐵1號、7號線到「Palais Royal-Museé du Louvre站」，到站以後不必出地鐵站只要循著指標走，便能看到羅浮宮的售票處</li>
+                        </ul>
+                        <p style="font:18px 標楷體">票價</p>
+                            <table>
+                                <tr>
+                                    <th>羅浮宮門票</th>
+                                    <th>羅浮宮票價</th>
+                                </tr>
+                                <tr>
+                                    <th>門票價錢</th>
+                                    <th>17 歐元</th>
+                                </tr>
+                                <tr>
+                                    <th>團體票</th>
+                                    <th>17 歐元</th>
+                                </tr>
+                                <tr>
+                                    <th>免門票</th>
+                                    <th>
+                                        ➢ 未滿 18 歲遊客<br>
+                                        ➢ 未滿 26 歲歐洲經濟區國家居民<br>
+                                        ➢ 殘障人士及一名陪同人員<br>
+                                        ➢ 巴黎博物館通行證<br>
+                                        ➢ <a href="https://www.louvre.fr/zh-hans/canguanfuwu/kaifangxinxi-menpiaojiage#mianfeitiaojian" target="_blank"><span style="color:rgb(7, 255, 189);">更詳細免門票條件</span></a>
+                                    </th>
+                                </tr>
+                            </table>
+                            <p><div class="image-gallery">
+                                <img src="images/羅浮宮.jpg" width="370" style="border-style:solid; border-width:6px;" title="羅浮宮">
+                                <img src="images/羅浮宮-1.jpg" width="370" style="border-style:solid; border-width:6px;" title="羅浮宮-2">
+                            </div></p>
+                    <h2><li><dt id="凱旋門">凱旋門</dt></li></h2>
+                            <p style="text-indent:1cm;font:18px 標楷體"><font color="red">巴黎市區最重要的12條大街都以凱旋門為中心</font>，向四周放射，氣勢磅礡，為歐洲大城市的設計典範。凱旋門1852年由拿破崙三世下令重新規劃巴黎,共17年時間,由7條大道改造成現在的12道光芒環繞,氣勢非常壯闊。</p>
+                            <ul style="font:18px 標楷體">
+                                <li>開放時間：下方全天開放。上面歷史博物館4月1日-9月30日10:00-23:00，10月1日-次年3月31日10:00-22:30（關閉前45分鐘停止售票）。<br>
+                                    1月1日、5月1日、5月8日（上午）、7月14日（上午）、11月11日（上午）、12月25日關閉。</p></li>
+                                <li>交通：乘坐地鐵M1、M2和M6線至Charles de Gaulle - Etoile站下車即可。</li>
+                                <li>官網：<a href="http://arc-de-triomphe.monuments-nationaux.fr/" target="_blank">http://arc-de-triomphe.monuments-nationaux.fr/</a></li>
+                            </ul>
+                            <p><div class="image-gallery">
+                                <img src="images/凱旋門.jpg" width="370" style="border-style:solid; border-width:6px;" title="凱旋門">
+                                <img src="images/凱旋門-1.jpg" width="370" style="border-style:solid; border-width:6px;" title="凱旋門-2">
+                            </div></p>
+                </ol>
+                <br>
+                <hr>
+            <h1><dt id="冰島">冰島</dt></h1>
+                <ol type="A">
+                <h2><li><dt id="藍色秘境瀑布">藍色秘境瀑布</dt></li></h2>
+                    <p style="text-indent:1cm;font:18px 標楷體">「Brúarfoss」是拱橋的意思，名字源自於瀑布上方的天然石拱橋 (拱橋早已倒塌)；Brúarfoss為冰島金圈Golden Circle途中的景點之一，先前因為處於相對偏僻的位置，
+                        再加上<font color="red">瀑布顏色為夢幻的蒂芬妮藍Tiffany Blue</font>，因此又被稱為「藍色秘境瀑布」。</p>
+                    <ul style="font:18px 標楷體">
+                        <li>官網：<a href="https://bruarfoss.is/" target="_blank">https://bruarfoss.is/</a></li>
+                        <li>開放時間：24小時（但天黑沒有任何照明設施非常危險，建議白天前往）</li>
+                        <li>停車費：不用門票，但需要付停車費750 ISK/4hrs(1~7人/車)</li>
+                    </ul>
+                    <p><div class="image-gallery">
+                        <img src="images/藍色秘境瀑布.jpg" width="370" style="border-style:solid; border-width:6px;" title="藍色秘境瀑布">
+                        <img src="images/藍色秘境瀑布-1.jpg" width="370" style="border-style:solid; border-width:6px;" title="藍色秘境瀑布-2">
+                    </div></p>
+                </ol>
+            </div>
+    <footer>    
+        <div class="footer" id="page-bottom">
+            <h3><p>以上是我想去的歐洲景點</p></h3>
+            <p>製作人 : 林靖庭</p>
+            <a href="index.html" class="footer-link">回主頁</a>
+        </div>
+    </footer>
+    </div>
+
+    <div class="sidebar">
+        <div class="toggle">☰</div>
+        <div class="content"style="font:italic 20px/25px 標楷體">
+            <ul>
+                <h2><li><a href="#page-top"><span style="color:#fff;">頁首</span></a></li></h2>
+                <h2><li><a href="#荷蘭"><span style="color:#fff;">荷蘭</span></a></li></h2>
+                <ol type="1">
+                    <h3><li><a href="#梵谷博物館"><span style="color:#fff;">梵谷博物館</span></li></h3>
+                    <h3><li><a href="#阿姆斯特丹運河遊船"><span style="color:#fff;">阿姆斯特丹運河遊船</span></li></h3>
+                    <h3><li><a href="#小孩堤防"><span style="color:#fff;">小孩堤防</span></li></h3>
+                </ol>
+                <h2><li><a href="#法國"><span style="color:#fff;">法國</span></a></li></h2>
+                <ol type="1">
+                    <h3><li><a href="#羅浮宮"><span style="color:#fff;">羅浮宮</span></li></h3>
+                    <h3><li><a href="#凱旋門"><span style="color:#fff;">凱旋門</span></li></h3>
+                </ol>
+                <h2><li><a href="#冰島"><span style="color:#fff;">冰島</span></a></li></h2>
+                    <h3><a href="#藍色秘境瀑布"><span style="color:#fff;">藍色秘境瀑布</span></h3>
+                <h2><li><a href="#page-bottom"><span style="color:#fff;">頁尾</span></a></li></h2>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('#mobile-menu');
+        const navList = document.querySelector('.nav-list');
+
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite 北美洲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+        .header, .footer {
+            padding: 5px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #000;
+        }
+        .body {
+            padding: 3px;
+            border-bottom: 1px solid #000;
+        }
+        .navbar {
+            background-color: #000;
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar li {
+            padding: 10px 40px;
+            position: relative;
+        }
+        .navbar a {
+            margin: 0 30px; 
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 22px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .black-bar { 
+            background-color: #000; 
+            height: 5px; 
+            width: 100%; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0;
+        }
+
+        .menu-toggle .bar {
+            height: 3px;
+            width: 25px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 20px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+        .navbar li:hover .dropdown-content {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar ul.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .image-gallery img {
+            height: auto;
+            border-style: solid;
+            border-width: 6px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            cursor: pointer;
+        }
+        .image-gallery a:hover img {
+            transform: scale(1.2);
+        }
+
+        .m-image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: -200px;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 300px;
+            background-color: #333;
+            color: white;
+            transition: right 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar:hover {
+            right: 0;
+        }
+
+        .sidebar .toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .fuji-style {
+            border: 6px solid #000;
+            transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fuji-style:hover {
+            transform: scale(0.2);
+            opacity: 0.9;
+        }
+
+        /* 提示文字 */
+        a[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: hwb(162 6% 57%);
+            color: #fff;
+        }
+        td {
+            background-color: #ecf0f1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        .carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 10px;
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.carousel-item {
+    position: relative;
+    flex: 0 0 100%;
+}
+
+.carousel-images img {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+
+.carousel-indicators span {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.carousel-indicators span.active {
+    background-color: #000;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+.carousel-indicators .active {
+    background: #333;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+.text-overlay {
+    position: absolute;
+    bottom: 40px; /* 距離底部指示器的距離 */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white; /* 文字顏色 */
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: bold; /* 加粗以提升可見性 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* 增加文字陰影提高對比 */
+    background: none; /* 移除背景 */
+    padding: 0; /* 移除內距 */
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="page-top">
+            <header>
+                <h1>北美洲</h1>
+            <nav class="navbar">
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-list">
+                    <li class="dropdown">
+                        <a href="#美國">美國</a>
+                        <div class="dropdown-content">
+                            <a href="#紐約">紐約</a>
+                            <a href="#阿拉斯加">阿拉斯加</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#加拿大">加拿大</a>
+                        <div class="dropdown-content">
+                            <a href="#阿爾伯塔省">阿爾伯塔省</a>
+                            <a href="#安大略省">安大略省</a> 
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <script src="script.js"></script><div class="carousel">
+                <div class="carousel-images">
+                    <div class="carousel-item">
+                        <img src="美國.jpg" alt="Image 1">
+                        <div class="text-overlay">
+                            <h3>美國</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="美國-1.jpg" alt="Image 2">
+                        <div class="text-overlay">
+                            <h3>美國-2</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="加拿大.jpg" alt="Image 3">
+                        <div class="text-overlay">
+                            <h3>加拿大</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="加拿大-1.jpg" alt="Image 4">
+                        <div class="text-overlay">
+                            <h3>加拿大-2</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators">
+                    <span data-index="0" class="active"></span>
+                    <span data-index="1"></span>
+                    <span data-index="2"></span>
+                    <span data-index="3"></span>
+                </div>
+                <button class="carousel-button prev">&lt;</button>
+                <button class="carousel-button next">&gt;</button>
+            </div>
+            <script src="輪播-1.js"></script>
+            
+            </header>
+        </div>
+        <div class="body">
+           <h1><dt id="美國">美國</dt></h1>
+            <ol type="A">
+             <h2><li><dt id="紐約">紐約</dt></li></h2>
+              <h3>時代廣場</h3>
+               <p>又稱為時報廣場，因《紐約時報》早期在此設立的總部大樓，如今這個有著百年歷史的廣場，是遊客到紐約的必到景點之一，也是各個大片的取景地。</p>
+               <h4>➢ 官方網站 : <a href="http://www.timessquarenyc.org/index.aspx"  target="_blank">點此</a></h4>
+               <h4>➢ 交通</h4>
+                <p>►地鐵
+                  <p>-可乘坐地鐵黃線N、Q、R線至49街(49 St)下車即可。<br>
+                     -可乘坐地鐵S線、1、2、3、7號線至時代廣場42街(Times Sq - 42 St)下車，步行3分鐘即可。</p>
+                   ►公車 : 可乘坐公車M104至7Av/w47St站下車即可。
+                </p>
+                <p><div class="image-gallery">
+                    <img src="時代廣場.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="時代廣場">
+                    <img src="時代廣場-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="時代廣場-2">
+                </div></p>
+              <h3>自由女神像</h3>
+               <p>是美國國家的紀念碑，是法國在1876年贈送給美國的獨立100週年禮物。女神矗立在紐約市哈德遜河口的自由島上，被譽為美國的象徵。<br>
+                1984年，它被列入世界遺產名錄。</p>
+               <h4>➢ 官方網站 : <a href="http://www.nps.gov/stli"  target="_blank">點此</a></h4>
+               <h4>➢ 門票</h4>
+                <table>
+                    <tr>
+                        <th>普通票</th>
+                        <th>
+                            成人18美元 ; 62以上老人14美元<br>
+                            4-12歲兒童9美元 ; 4歲以下兒童免費
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>套票</th>
+                        <th>
+                            成人21美元 ; 62以上老人17美元<br>
+                            4-12歲兒童12美元
+                        </th>
+                    </tr>
+                </table>
+                *普通票包括抵達自由島和埃利斯島、女神像墊座和語音導覽器<br>
+                *套票除包括普通票內容外，還包括了抵達女神冠冕處門票。
+               <h4>➢ 開放時間</h4>
+                <p>08:30 – 16:00</p>
+               <h4>➢ 交通</h4>
+                <p>從炮台公園坐渡輪前往自由島，可乘坐地鐵、公車、計程車到達。 </p>
+                <p><div class="image-gallery">
+                    <img src="自由女神像.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="自由女神像">
+                    <img src="自由女神像-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="自由女神像-2">
+                </div></p>
+              <h3>中央公園</h3>
+               <p>內部可分為南北中三塊，以公園內最大的湖Reservoir為界。園內設有淺綠色草地、樹木鬱鬱的小森林庭院、溜冰場、回轉木馬、<br>
+                露天劇場、兩座小動物園，可以泛舟水面的湖、網球場、運動場、美術館等等，是一塊完全人造的自然景觀。</p>
+               <h4>➢ 官方網站 : <a href="http://www.centralparknyc.org/"  target="_blank">點此</a></h4>
+               <h4>➢ 門票</h4>
+                <p>自由參觀<br>
+                   內設部分景點收費
+                </p>
+               <h4>➢ 交通</h4>
+                <p>►地鐵</p>
+                 <p>-搭乘地鐵B、C線在Cathedral Pkwy (110 St)、103 St、96 St、86 St、81 St - Museum of Natural History、<br>72 St、59 St - Columbus Circle皆可下車從不同入口進入公園<br>
+                    -搭乘地鐵紅線2.3在Central Park North (110 St)下車<br>
+                    -搭乘地鐵黃線N.Q.R在5 Av/59 St下車
+                </p>
+                <p><div class="image-gallery">
+                    <img src="中央公園.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="中央公園">
+                    <img src="中央公園-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="中央公園-2">
+                </div></p>
+            <h2><li><dt id="阿拉斯加">阿拉斯加</dt></li></h2>  
+              <h3>極光列車</h3> 
+               <p>路途會經過「迪納利國家公園和保留區」只有在週末的時候有行駛，可以做為觀光列車，行駛速度不快，沿途列車長會介紹景點，<br>
+                遇到美景時，列車會放慢速度，讓乘客盡情的觀賞與拍照，這些只有搭乘「冬季極光列車」才能看到的風景。</p>
+               <h4>➢ 票價</h4>
+                <p>成人 : $216美金 ; 小孩(2-11歲) : $108美金 ; 年長者(65歲以上) : $108美金</p>
+               <h4>➢ 相關影片</h4>
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/dn8JdQuTMac?si=QB3htPr0Zy_ivSbf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </ol>   
+            <br>
+            <hr>
+             <h1><dt id="加拿大">加拿大</dt></h1>
+              <ol type="A">
+                <h2><li><dt id="阿爾伯塔省">阿爾伯塔省</dt></li></h2>
+                 <h3>冰原公路</h3>
+                  <p>被視為北美最美麗的公路之一，從班夫國家公園至賈思珀國家公園，綿延229公里，沿途可看到瀑布、翡翠湖、<br>草原和白雪覆頂的山峰的景致變化，美麗如一幅畫卷。</p>
+                  <p><div class="image-gallery">
+                    <img src="冰原公路.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="冰原公路">
+                    <img src="冰原公路-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="冰原公路-2">
+                </div></p>
+                <h2><li><dt id="安大略省">安大略省</dt></li></h2>
+                 <h3>尼亞加拉大瀑布</h3>
+                  <p>是世界第一大跨國瀑布，也是世界七大奇景之一，它那豐沛而浩瀚的水量和磅礡的氣勢，無論在瀑布的湖盆底部或其背後深處，<br>還是佇立在巨大的約13層落差的馬蹄形峭壁邊緣噴霧之中，都讓人感受到心靈在震顫。</p>
+                  <h4>➢ 官網 : <a href=" http://www.niagaraparks.com/" target="_blank">點此</a></h4>
+                  <h4>➢ 門票</h4>
+                   無需門票
+                  <h4>➢ 開放時間</h4>
+                   全天開放，其中參加各項活動的開放時間請參見官網：<a href="http://www.niagaraparks.com/hours/niagaras-fury.html">http://www.niagaraparks.com/hours/niagaras-fury.html</a>
+                  <h4>➢ 交通</h4>
+                  搭乘火車到Niagara Falls Funiculars Upper Station下車 
+                  <p><div class="image-gallery">
+                    <img src="尼亞加拉瀑布.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="尼亞加拉瀑布">
+                    <img src="尼亞加拉瀑布-1.jpg" width="370" alt="吉卜力美術館內部，充滿動畫氛圍的展示場景" style="border-style:solid; border-width:6px;" title="尼亞加拉瀑布-2">
+                  </div></p>
+            </ol>
+        </div>
+        <div class="footer" id="page-bottom">
+            <h3><p>以上是我想去的北美洲景點</p></h3>
+            <p>製作人 : 林靖庭</p>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="toggle">☰</div>
+        <div class="content">
+            <ul>
+                <h2><li><a href="#page-top"><span style="color:#fff;">頁首</span></a></li></h2>
+                <h2><li><a href="#美國"><span style="color:#fff;">美國</span></a></li></h2>
+                <h2><li><a href="#加拿大"><span style="color:#fff;">加拿大</span></a></li></h2>
+                <h2><li><a href="#page-bottom"><span style="color:#fff;">頁尾</span></a></li></h2>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('#mobile-menu');
+        const navList = document.querySelector('.nav-list');
+
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

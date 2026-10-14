@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Bar Text Zoom with Internal Links</title>
+    <style>
+        .navbar {
+            background-color: #f5deb3;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .navbar a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+            transition: transform 0.3s ease, color 0.3s ease;
+            font-size: 18px;
+            display: inline-block; /* Ensures the link is treated as a block element for proper scaling */
+        }
+        .navbar a:hover {
+            transform: scale(1.2);
+            color: #ff4500; /* Optional: Changes color on hover for better visual feedback */
+        }
+        .black-bar {
+            background-color: #000;
+            height: 5px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .section {
+            padding: 50px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="#section1">各州介紹</a>
+            <a href="#section2">My Favorite</a>
+            <a href="#section3">網站架構</a>
+            <a href="#section4">推薦網站</a>
+        </div>
+        <div class="black-bar"></div>
+    </div>
+
+    <div id="section1" class="section">
+        <h2>各州介紹</h2>
+        <p>這裡是各州介紹內容。</p>
+    </div>
+    <div id="section2" class="section">
+        <h2>My Favorite</h2>
+        <p>這裡是My Favorite內容。</p>
+    </div>
+    <div id="section3" class="section">
+        <h2>網站架構</h2>
+        <p>這裡是網站架構內容。</p>
+    </div>
+    <div id="section4" class="section">
+        <h2>推薦網站</h2>
+        <p>這裡是推薦網站內容。</p>
+    </div>
+</body>
+</html>

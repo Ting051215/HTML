@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推薦網站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: grid;
+            grid-template-areas:
+                "header"
+                "body"
+                "footer";
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            text-align: center;
+        }
+
+        header {
+            grid-area: header;
+            background-color: #f4e3c1;
+            text-align: center;
+            padding: 1em;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        main {
+            grid-area: body;
+            background-color: #fff4e6;
+            padding: 1em;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #f4e3c1;
+            text-align: center;
+            padding: 1em;
+        }
+        .footer-link {
+            display: inline-block;
+            background-color: hsl(148, 73%, 34%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            background-color: hsl(123, 60%, 31%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <font size="20px">推薦網站</font><br>
+            <a href="https://zh.wikipedia.org/zh-tw/Wikipedia:%E9%A6%96%E9%A1%B5" target="_blank" style="font-size: 15px;">https://zh.wikipedia.org/zh-tw/Wikipedia:%E9%A6%96%E9%A1%B5</a>
+        </header>
+        <main>
+            <h2>網站名稱</h2>
+                <p>維基百科</p>
+            <h2>內容架構</h2>
+                <p>有大標題、導覽列，則body主要含有左右兩部分，右邊的側邊攔是可以收合的。<br>
+                   最左上角還有一個漢堡選單，點選之後會呈現下拉選單，且它可以將此下拉選單，變為側邊攔。<br>
+                   在維基百科的頁面中，有很多連結，包含頁內和連至其他網頁的連結，當游標移至這些連結時，<br>
+                   會出現提示，提示中還會呈現小卡片做簡單的內容解釋。<br>
+                   而在內容部分，也會放一些文繞圖在旁邊做解釋。
+            <h2>喜歡原因</h2>
+                    <p>我喜歡它的原因是因為，它的右邊側邊攔的內容，是讓閱覽者可依自己的喜好調整文字大小，<br>
+                       除此之外，文字的連結也是我喜歡的，因為它可以直接讓游標移至上方，<br>
+                       就能看到簡單的內容介紹，而不需要再去Google上查資料
+                    </p>
+            <h2>優缺點</h2>
+                    <p><b>優點 :</b> 內容多，且功能應有盡有，讓閱覽者能夠得到更多資訊<br><br>
+                       <b>缺點 :</b> 連結太多太雜，有時會找不到想看的內容在哪裡。除此之外，它是一個共同編輯的網站，<br>
+                              我認為這些內容可能不完全是對的
+                    </p>
+        </main>
+        <footer>
+            <p>製作人 : 林靖庭</p>
+            <a href="index.html" class="footer-link">回主頁</a>
+        </footer>
+    </div>
+</body>
+</html>

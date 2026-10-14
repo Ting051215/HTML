@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite 南美洲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+        .header, .footer {
+            padding: 5px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #000;
+        }
+        .body {
+            padding: 3px;
+            border-bottom: 1px solid #000;
+        }
+        .navbar {
+            background-color: #000;
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar li {
+            padding: 10px 40px;
+            position: relative;
+        }
+        .navbar a {
+            margin: 0 30px; 
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 22px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .black-bar { 
+            background-color: #000; 
+            height: 5px; 
+            width: 100%; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0;
+        }
+
+        .menu-toggle .bar {
+            height: 3px;
+            width: 25px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 20px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+        .navbar li:hover .dropdown-content {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar ul.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .image-gallery img {
+            height: auto;
+            border-style: solid;
+            border-width: 6px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            cursor: pointer;
+        }
+        .image-gallery a:hover img {
+            transform: scale(1.2);
+        }
+
+        .m-image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: -250px;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 300px;
+            background-color: #333;
+            color: white;
+            transition: right 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar:hover {
+            right: 0;
+        }
+
+        .sidebar .toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .fuji-style {
+            border: 6px solid #000;
+            transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fuji-style:hover {
+            transform: scale(0.2);
+            opacity: 0.9;
+        }
+
+        /* 提示文字 */
+        a[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: hwb(162 6% 57%);
+            color: #fff;
+        }
+        td {
+            background-color: #ecf0f1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        .carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    position: relative;
+    flex: 0 0 100%;
+}
+.carousel-images img {
+    width: 100%;
+    flex-shrink: 0;
+}
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+.carousel-indicators span {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.carousel-indicators span.active {
+    background-color: #000;
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.text-overlay {
+    position: absolute;
+    bottom:25px; /* 距離底部指示器的距離 */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white; /* 文字顏色 */
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold; /* 加粗以提升可見性 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* 增加文字陰影提高對比 */
+    background: none; /* 移除背景 */
+    padding: 0; /* 移除內距 */
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+.carousel-indicators .active {
+    background: #333;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+.footer-link {
+            display: inline-block;
+            background-color: hsl(148, 73%, 34%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            background-color: hsl(123, 60%, 31%);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="page-top">
+            <header><h1>南美洲</h1>
+            <nav class="navbar">
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-list">
+                    <li class="dropdown">
+                        <a href="#阿根廷">阿根廷</a>
+                        <div class="dropdown-content">
+                            <a href="#科爾多瓦">科爾多瓦</a>
+                            <a href="#布宜諾斯艾利斯">布宜諾斯艾利斯</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <script src="script.js"></script>
+            <div class="carousel">
+                <div class="carousel-images">
+                    <div class="carousel-item">
+                        <img src="images/阿根廷.jpg" alt="圖片1">
+                        <div class="text-overlay">
+                            <h3>阿根廷-阿空加瓜山</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/阿根廷-2.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>阿根廷-冰川國家公園</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/阿根廷-3.jpg" alt="圖片3">
+                        <div class="text-overlay">
+                            <h3>阿根廷-哥倫布劇院</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators">
+                    <span data-index="0" class="active"></span>
+                    <span data-index="1"></span>
+                    <span data-index="2"></span>
+                </div>
+                <button class="carousel-button prev">&lt;</button>
+                <button class="carousel-button next">&gt;</button>
+                
+                </div>
+            <script src="輪播-1.js"></script>
+            </header>
+        </div>
+        <div class="body">
+           <h1><dt id="阿根廷">阿根廷</dt></h1>
+            <ol type="A">
+             <h2><li><dt id="科爾多瓦">科爾多瓦</dt></li></h2>
+              <p style="text-indent:1cm;font:18px 標楷體">是阿根廷人口數量僅次於布宜諾斯艾利斯的城市，也是<font color="red">全國面積最大的城市</font>。這裡也是該地區重要的文化、經濟、教育、金融和娛樂中心。
+                 哥多華被稱為「學識之城」（La Docta）或「鐘聲之城」（西班牙語：La Ciudad de las Campanas）。</p>
+              <h3 style="font:19px 標楷體"><b>景點</b></h3>
+               <h3 style="font:19px 標楷體">科爾多大教堂</h3>
+                <ul>
+                 <li><p style="font:18px 標楷體"><font color="red">融合了西班牙殖民地巴洛克風格、新古典主義</font>，還帶有一點穆得哈爾風與文藝復興元素，被聯合國教科文組織科列為世界文化遺產</p></li>
+                 <li style="font:18px 標楷體">官網 : <a href="https://es-la.facebook.com/IglesiaDeLosCapuchinos"  target="_blank">點此</a></li>
+                </ul>
+                <p><div class="image-gallery">
+                    <img src="images/科爾多大教堂.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="科爾多大教堂">
+                    <img src="images/科爾多大教堂-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="科爾多大教堂-2">
+                </div></p>
+               <h3 style="font:19px 標楷體">切格瓦拉博物館</h3>
+                <ul>
+                    <li><p style="font:18px 標楷體">切格瓦拉博物館位於阿根廷上格拉西亞，在上世紀30年代，切格瓦拉曾經在附近的幾幢房子里居住過。其中較早居住的一幢房子<br>
+                        已被改建成為切格瓦拉博物館，<font color="red">館內主要展示了切格瓦拉早期的生活場景以及用過的一些物品</font>。</p>
+                    </li>
+                    <li style="font:18px 標楷體"><p>開放時間 : 9:00 ~ 19:00</p></li>
+                    <li style="font:18px 標楷體">電話 : +54 3547 42-8579</li>
+                </ul>
+                <p><div class="image-gallery">
+                    <img src="images/切格瓦拉博物館.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="切格瓦拉博物館">
+                    <img src="images/切格瓦拉博物館-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="切格瓦拉博物館-2">
+                </div></p>
+                <br>
+                <hr>
+             <h2><li><dt id="布宜諾斯艾利斯">布宜諾斯艾利斯</dt></li></h2>
+              <p style="text-indent:1cm;font:18px 標楷體">是阿根廷的首都和最大城市，位於拉布拉他河南岸、南美洲東南岸、對岸為烏拉圭（東方）。布市是構成阿根廷的24個行政區之一。整座城市被分為15個大區（Comuna）並總共聚集48個小區</p>
+              <h3 style="font:19px 標楷體"><b>景點</b></h3>
+               <h3 style="font:19px 標楷體">科隆歌劇院</h3>
+                <ul>
+                    <li><p style="font:18px 標楷體">是號稱僅次於紐約大都會歌劇院Metropolitan Opera House及米蘭拉斯卡拉劇院Teatro alla Scala的世界第三大歌劇院之一，
+                        也是<font color="red">音響效果最好的劇院</font>，歌劇院<font color="red">融合了法國，義大利，希臘，德國風格的文藝復興式建築</font>，是世界最豪華的歌劇院之一。
+                    </p></li>
+                    <li style="font:18px 標楷體"><p>導賞團票價 : AR$800/人</p></li>
+                    <li style="font:18px 標楷體"><p>開放時間 : 9:00 ~ 17:00</p></li>
+                    <li style="font:18px 標楷體">官網 : <a href="http://www.teatrocolon.org.ar/en/content/guided-tours" target="_blank">點此</a></li>
+                </ul>
+                <p><div class="image-gallery">
+                    <img src="images/科隆歌劇院.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="科隆歌劇院">
+                    <img src="images/科隆歌劇院-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="科隆歌劇院-2">
+                </div></p>
+               <h3 style="font:19px 標楷體">雷科萊塔公墓</h3>
+                <ul>
+                    <li><p style="font:18px 標楷體">建立於1822年，占地面積四萬平方米，是布宜諾斯艾利斯最古老的公墓，也是世界最著名的十座墓地之一。在雷科萊塔墓地，
+                        除了第一夫人伊娃外，其它埋葬的都是社會上的顯赫人士，政治家，教育家，領導人等等。
+                    </p></li>
+                    <li style="font:18px 標楷體">門票：免費入場</li>
+                    <li style="font:18px 標楷體">開放時間：7:00 ~ 17:30</li>
+                </ul>
+                <p><div class="image-gallery">
+                    <img src="images/雷科萊塔公墓.jpg" width="370" alt="夜晚的戎橋，燈光和人潮交織的美景" style="border-style:solid; border-width:6px;" title="雷科萊塔公墓">
+                    <img src="images/雷科萊塔公墓-1.jpg" width="370" alt="道頓堀水上觀光船在運河上的風景" style="border-style:solid; border-width:6px;" title="雷科萊塔公墓-2">
+                </div></p>
+            </ol>
+        </div>
+    <footer>
+        <div class="footer" id="page-bottom">
+            <h3><p>以上是我想去的南美洲景點</p></h3>
+            <p>製作人 : 林靖庭</p>
+            <a href="index.html" class="footer-link">回主頁</a>
+        </div>
+    </footer>
+    </div>
+
+    <div class="sidebar">
+        <div class="toggle">☰</div>
+        <div class="content"style="font:italic 20px/25px 標楷體">
+            <ul>
+                <h2><li><a href="#page-top"><span style="color:#fff;">頁首</span></a></li></h2>
+                <h2><li><a href="#阿根廷"><span style="color:#fff;">阿根廷</span></a></li></h2>
+                <ol  type="1">
+                  <h3><li><a href="#科爾多瓦"><span style="color:#fff;">科爾多瓦</span></a></li></h3>
+                  <h3><li><a href="#布宜諾斯艾利斯"><span style="color:#fff;">布宜諾斯艾利斯</span></a></li></h3>
+                </ol>
+                <h2><li><a href="#page-bottom"><span style="color:#fff;">頁尾</span></a></li></h2>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('#mobile-menu');
+        const navList = document.querySelector('.nav-list');
+
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite 亞洲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+        .header, .footer {
+            padding: 5px;
+            text-align: center;
+            background-color: rgba(237, 231, 231, 0.407);
+            border-bottom: 1px solid #000;
+        }
+        .body {
+            padding: 3px;
+            border-bottom: 1px solid #000;
+        }
+        .navbar {
+            background-color: #000;
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative; 
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar li {
+            padding: 10px 40px;
+            position: relative;
+        }
+        .navbar a {
+            margin: 0 30px; 
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 22px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .black-bar { 
+            background-color: #000; 
+            height: 5px; 
+            width: 100%; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0;
+        }
+
+        .menu-toggle .bar {
+            height: 3px;
+            width: 25px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+        .navbar li:hover .dropdown-content {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar ul.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .image-gallery img {
+            height: auto;
+            border-style: solid;
+            border-width: 6px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            cursor: pointer;
+        }
+        .image-gallery a:hover img {
+            transform: scale(1.2);
+        }
+
+        .m-image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: -200px;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 650px;
+            background-color: #333;
+            color: white;
+            transition: right 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar:hover {
+            right: 0;
+        }
+
+        .sidebar .toggle {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .fuji-style {
+            border: 6px solid #000;
+            transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .fuji-style:hover {
+            transform: scale(0.2);
+            opacity: 0.9;
+        }
+
+        /* 提示文字 */
+        a[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: hwb(162 6% 57%);
+            color: #fff;
+        }
+        td {
+            background-color: #ecf0f1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .card {
+        max-width: 200px; /* 卡片最大寬度 */
+        border: 2px solid #ddd; /* 邊框顏色和粗細 */
+        margin: auto; /* 水平居中 */
+        height:390px;
+    }
+
+    /* 卡片圖片 */
+    .card-img-top {
+        width: 100%; /* 圖片縮小為卡片寬度的 70% */
+        height: auto; /* 保持比例 */
+        display: block;
+    }
+
+    /* 卡片內容滾動 */
+    .card-body {
+        overflow-y: auto; /* 啟用垂直滾動條 */
+        max-height: 100px;/* 設置最大高度 */
+        padding-right: 10px; /* 為滾動條留出空間 */
+    }
+
+    /* 自訂按鈕樣式 */
+    .btn-custom {
+        display: inline-block;
+        background: linear-gradient(135deg, #e0b463, #ab902f); /* 漸變背景色 */
+        color: #fff; /* 按鈕文字顏色 */
+        font-weight: bold; /* 粗體字 */
+        text-transform: uppercase; /* 大寫字母 */
+        border: none; /* 無邊框 */
+        border-radius: 50px; /* 圓角 */
+        padding: 8px 20px; /* 內邊距 */
+        font-size: 0.875rem; /* 字體大小 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+        transition: all 0.3s ease; /* 漸變效果 */
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(135deg, #ab902f, #e0b463); /* 顏色反轉 */
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* 強調陰影 */
+        transform: translateY(-2px); /* 懸停時微微上移 */
+    }
+
+    .btn-custom:active {
+        transform: translateY(1px); /* 點擊時微微下移 */
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15); /* 縮小陰影 */
+    }
+
+ .row { 
+    display: flex; 
+    justify-content: center; /* 水平置中 */ 
+    flex-wrap: wrap; /* 在小屏幕上換行 */ 
+    gap: 15px; /* 卡片之間的間距 */ 
+} 
+.col-sm-6 { 
+    flex: 1 1 250px; /* 卡片寬度 */ 
+    max-width: 300px; 
+} 
+.card { 
+    margin: auto;
+}
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    position: relative;
+    flex: 0 0 100%;
+}
+.carousel-images img {
+    width: 100%;
+    flex-shrink: 0;
+}
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+.carousel-indicators span {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.carousel-indicators span.active {
+    background-color: #000;
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.text-overlay {
+    position: absolute;
+    bottom:25px; /* 距離底部指示器的距離 */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white; /* 文字顏色 */
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold; /* 加粗以提升可見性 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* 增加文字陰影提高對比 */
+    background: none; /* 移除背景 */
+    padding: 0; /* 移除內距 */
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+.carousel-indicators .active {
+    background: #333;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+.footer-link {
+            display: inline-block;
+            background-color: hsl(148, 73%, 34%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            background-color: hsl(123, 60%, 31%);
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="page-top">
+            <header><h1>亞洲</h1>
+            <nav class="navbar">
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-list">
+                    <li class="dropdown">
+                        <a href="#日本">日本</a>
+                        <div class="dropdown-content">
+                            <a href="#大阪">大阪</a>
+                            <a href="#東京">東京</a>
+                            <a href="#京都">京都</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#韓國">韓國</a>
+                        <div class="dropdown-content">
+                            <a href="#首爾">首爾</a>
+                            <a href="#釜山">釜山</a> 
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#中國">中國</a>
+                        <div class="dropdown-content">
+                            <a href="#北京">北京</a>
+                            <a href="#上海">上海</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="carousel">
+                <div class="carousel-images">
+                    <div class="carousel-item">
+                        <img src="images/日本.jpg" alt="圖片1">
+                        <div class="text-overlay">
+                            <h3>日本</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/日本-1.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>日本-2</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/韓國.jpg" alt="圖片3">
+                        <div class="text-overlay">
+                            <h3>韓國-北村韓屋村</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/韓國-1.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>韓國-明洞</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/中國.jpeg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>中國-外灘</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/中國-1.jpg" alt="圖片2">
+                        <div class="text-overlay">
+                            <h3>中國-故宮</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators">
+                    <span data-index="0" class="active"></span>
+                    <span data-index="1"></span>
+                    <span data-index="2"></span>
+                    <span data-index="3"></span>
+                    <span data-index="4"></span>
+                    <span data-index="5"></span>
+                </div>
+                <button class="carousel-button prev">&lt;</button>
+                <button class="carousel-button next">&gt;</button>
+                
+                </div>
+            <script src="輪播-1.js"></script>
+            </header>
+        </div>
+        <div class="body">
+           <h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255)"><dt id="日本">日本</dt></h1>
+            <ol type="A">
+             <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="大阪">大阪</dt></li></h2>
+              <h3 style="text-shadow:3px 2px 3px hwb(160 19% 34%)">道頓堀</h3>
+               <p style="text-indent:1cm;font:18px 標楷體">道頓堀（道頓崛）<font color="red">位於大阪府大阪市中央區</font>，是一個沿著運河「道頓堀川」延伸的鬧區，全長約2.9公里，北側和南側分別是大阪有名的繁華街區「宗右衛門町」
+                和「法善寺橫丁」，其間散佈有許多餐廳、劇院、觀光景點和土特產商店等。</p>
+               <h4>必去景點</h4>
+               <div class="row">
+                <div class="col-sm-6">
+                    <div class="card shadow-sm border rounded" style="max-width: 300px; margin: auto;">
+                        <!-- 卡片圖片 -->
+                        <img class="card-img-top mx-auto mt-2" src="images/戎橋.jpg">
+                        <!-- 卡片內容 -->
+                        <div class="card-body overflow-auto" style="max-height: 200px;font-size:14px;">
+                            <h3 class="card-title text-primary fw-bold">戎橋</h3>
+                            <p class="card-text text-muted">
+                                是從「心齋橋商店街」到「戎橋筋商店街」的通道，因此不分晝夜都是人潮滿滿。
+                            </p>
+                            <a href="https://www.gltjp.com/zh-hant/directory/item/14648/" target="_blank" class="btn btn-custom">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card shadow-sm border rounded" style="max-width: 300px; margin: auto;">
+                        <!-- 卡片圖片 -->
+                        <img class="card-img-top mx-auto mt-2" src="images/道頓堀水上觀光船.jpeg">
+                        <!-- 卡片內容 -->
+                        <div class="card-body overflow-auto" style="max-height: 200px;font-size:14px;">
+                            <h3 class="card-title text-primary fw-bold">道頓堀水上觀光船</h3>
+                            <p class="card-text text-muted">
+                                透過與地面上不同的視角來觀察持續繁華的地區，探索被稱為水都的大阪魅力。
+                            </p>
+                            <a href="https://tw.osaka-info.jp/spot/tombori-river-cruise/" target="_blank" class="btn btn-custom">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card shadow-sm border rounded" style="max-width: 300px; margin: auto;">
+                        <!-- 卡片圖片 -->
+                        <img class="card-img-top mx-auto mt-2" src="images/法善寺橫丁.jpg">
+                        <!-- 卡片內容 -->
+                        <div class="card-body overflow-auto" style="max-height: 200px;font-size:14px;">
+                            <h3 class="card-title text-primary fw-bold">法善寺橫丁</h3>
+                            <p class="card-text text-muted">
+                                位於淨土宗天龍山法善寺境內，是兩條鋪著鵝卵石的小巷弄。從明治時代起這裡就是日本著名的旅遊景點，吸引著眾多來自全國各地的參客。
+                            </p>
+                            <a href="https://www.bring-you.info/zh-tw/hozenji-yokocho" target="_blank" class="btn btn-custom">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card shadow-sm border rounded" style="max-width: 300px; margin: auto;">
+                        <!-- 卡片圖片 -->
+                        <img class="card-img-top mx-auto mt-2" src="images/上方浮世繪館.jpg">
+                        <!-- 卡片內容 -->
+                        <div class="card-body overflow-auto" style="max-height: 200px;font-size:14px;">
+                            <h3 class="card-title text-primary fw-bold">上方浮世繪館</h3>
+                            <p class="card-text text-muted">
+                                在江戶時代，大阪和京都地區通常被稱為「上方」而得名。收藏並展示源於上方地區的浮世繪。
+                            </p>
+                            <a href="https://tw.osaka-info.jp/spot/kamigata-ukiyoe-museum/" target="_blank" class="btn btn-custom">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="東京">東京</dt></li></h2>
+               <h3 style="text-shadow:3px 2px 3px  hwb(160 19% 34%)"><b>吉卜力美術館</b></h3>
+                <p style="text-indent:1cm;font:18px 標楷體">空間設計是經由宮崎駿的構想而來，館內除了展示宮崎駿創作的作品手稿、電影動畫製作相關的展覽品之外，就連博物館本身都宛如置身在動畫裡的場景一樣，是非常受歡迎的景點。</p>
+                <h4 style="font:19px 標楷體"><b>營業時間、門票、交通資訊</b></h4>
+                 <p style="font:18px 標楷體">➢地址：東京都三鷹市下連雀1丁目1−83</p>
+                 <p style="font:18px 標楷體">➢開放時間：10:00~18:00，週二公休</p>
+                 <p style="font:18px 標楷體">➢網站：<a href="https://www.ghibli-museum.jp" target="_blank">https://www.ghibli-museum.jp</a></p>
+                 <p style="font:18px 標楷體">➢門票:成人、大學生1,000日圓，國中～高中生700日圓，小學生400日元，幼兒（4歲以上～小學）100日圓，4歲以下免費入場。</p>
+                 <p style="font:18px 標楷體">➢交通資訊</p>
+                 <p style="font:18px 標楷體">►接駁車：搭乘JR 中央・總武線（各站停車）、中央線（快速）至「三鷹站」，再從三鷹站南口出來後轉搭接駁巴士（接駁車時刻表）。<br>搭乘接駁車需要收費，接駁巴士價錢：大人210日圓（單趟）、320日圓（來回）；小孩110日圓（單趟）、160日圓（來回）</p>
+                 <p style="font:18px 標楷體">►公車：搭乘中央線到吉祥寺站，於吉祥寺南口搭乘調布方向公車（吉01、吉02、吉03、吉04、吉06、吉11、吉14）→於「萬助橋站」下車→步行5分鐘即可抵達</p>
+                 <p style="font:18px 標楷體">►步行：<br>
+                  -搭乘JR中央線到三鷹站，從南口出站，沿著玉川上水風之散步道步行約15分鐘即達，沿途都有美術館方向的看板指示。<br>
+                  -搭乘中央線到吉祥寺站，穿過井之頭恩賜公園後可看到吉卜力美術館的指標，步行需要20分鐘。
+                 </p>
+                 <p><div class="image-gallery">
+                    <img src="images/吉卜力美術館.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="內部展覽">
+                    <img src="images/吉卜力美術館-1.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="機器士兵">
+                    <img src="images/吉卜力美術館-2.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="龍貓售票亭">
+                </div></p>
+              <h3 style="text-shadow:3px 2px 3px  hwb(160 19% 34%)">富士山</h3>
+               <p style="text-indent:1cm;font:18px 標楷體">世界遺產「富士山」是<font color="red">日本最高的山峰</font>，也是日本的象徵。自古以來就作為山岳崇拜的對象和藝術創作的源泉，對日本人的價值觀及日本文化產生了巨大的影響。</p>
+               <h4 style="font:19px 標楷體"><b>必看絕景5選</b></h4>
+                <ol type="1" style="font:18px 標楷體">
+                    <li>新倉山淺間公園</li>
+                    <li>忍野八海</li>
+                    <li>富士本栖湖度假村</li>
+                    <li>大石公園</li>
+                    <li>三島天空步道</li>
+                </ol>
+                <h4><b>依序視角</b></h4>
+                <p><div class="image-gallery">
+                <a href="https://www.gltjp.com/zh-hant/directory/item/10323/" target="_blank" title="點擊進入介紹"><img src="images/新倉山淺間公園.jpg" width="190" alt="新倉山淺間公園" style="border-style:solid; border-width:6px;border-color:#000;" class="fuji-style"></a>
+                <a href="https://www.gltjp.com/zh-hant/directory/item/11258/" target="_blank" title="點擊進入介紹"><img src="images/忍野八海.png" width="190" alt="忍野八海" style="border-style:solid; border-width:6px;border-color:#000;" class="fuji-style"></a>
+                <a href="https://www.gltjp.com/zh-hant/directory/item/14608/" target="_blank" title="點擊進入介紹"><img src="images/富士本栖湖度假村.jpg" width="190" alt="富士本栖湖度假村" style="border-style:solid; border-width:6px;border-color:#000;" class="fuji-style"></a>
+                <a href="https://www.gltjp.com/zh-hant/directory/item/14551/" target="_blank" title="點擊進入介紹"><img src="images/大石公園.jpg" width="190" alt="大石公園" style="border-style:solid; border-width:6px;border-color:#000;" class="fuji-style"></a>
+                <a href="https://www.gltjp.com/zh-hant/directory/item/11648/" target="_blank" title="點擊進入介紹"><img src="images/三島天空步道.jpg" width="190" alt="三島天空步道" style="border-style:solid; border-width:6px;border-color:#000;" class="fuji-style"></a>
+                </div></p> 
+             <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="京都">京都</dt></li></h2>
+              <h3 style="text-shadow:3px 2px 3px  hwb(160 19% 34%)">清水寺</h3>
+               <P style="text-indent:1cm;font:18px 標楷體">寺院內有許多歷史價值極高的精彩看點，包括被指定為國寶和重要文化財產的建築物等，非常值得一遊。此外，豐富的自然景觀也是令人流連忘返的魅力之一。</P>
+               <h4 style="font:19px 標楷體"><b>交通、參拜時間、票價</b></h4>
+               <p style="font:18px 標楷體">➢交通:</p>
+               <p style="font:18px 標楷體">►京都市交通局（京都市巴士）<br>
+                   206路開往東山通北大路巴士終點站方向<br>
+                   100路 開往清水寺、祗園、銀閣寺方向</p>
+               <p style="font:18px 標楷體">►京都巴士<br>
+                   18路 開往大原方向（僅星期六、國定假日運行）</p>
+               <p style="font:18px 標楷體">➢參拜時間</p>
+               <table border="1">
+                <tr>
+                    <th>6:00 - 18:00</th>
+                    <th>
+                        1月1日～3月24日<br>
+                        4月3日～6月30日<br>
+                        9月1日～11月17日<br>
+                        2月1日～12月31日
+                    </th>
+                </tr>
+                <tr>
+                    <th>6:00 - 18:30</th>
+                    <th>
+                        7月1日～8月13日<br>
+                        8月17日～8月31日
+                    </th>
+                </tr>
+                <tr>
+                    <th>6:00 - 21:30（21:00受付終了）</th>
+                    <th>
+                        3月25日～4月2日（春季夜間特別參拜）<br>
+                        8月14日～8月16日（千日詣/夏季夜間特別參拜）<br>
+                        11月18日～11月30日（秋季夜間特別參拜）
+                    </th>
+                </tr>
+              </table>
+              <p style="font:18px 標楷體">➢票價</p>
+              <p style="font:18px 標楷體">►大人:400日圓<br>
+                 ►國中生・小學生:200日圓
+              </p>
+               <p><div class="image-gallery">
+                <img src="images/清水寺.jpg" width="370" style="border-style:solid; border-width:6px;" class="rounded-1" title="清水寺">
+                <img src="images/清水寺-1.jpg" width="370" style="border-style:solid; border-width:6px;" class="rounded-1" title="清水寺-2">
+               </div></p>
+            </ol>
+            <br>
+            <hr>
+           <h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255)"><dt id="韓國">韓國</dt></h1>
+            <ol type="A">
+              <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="首爾">首爾</dt></li></h2>
+               <h3 style="text-shadow:3px 2px 3px hwb(160 19% 34%)">北村韓屋村</h3>
+                <p style="text-indent:1cm;font:18px 標楷體">是擁有600年歷史的傳統住宅區，這裡自古以來就是兩班貴族的聚居地，<font color="red">保存了朝鮮時代上流階層的瓦屋建築風格，呈現出過去貴族生活的風貌</font>。
+                    原本僅有幾戶高柱大門的豪宅及30多棟韓屋，隨著日治時期末和韓戰後的發展，逐漸擴大成現今的樣貌。</p>
+                <h4 style="font:19px 標楷體"><b>交通</b></h4>
+                <p style="font:18px 標楷體">➢首爾地鐵：搭乘【地鐵3號線】到安國站（328），1、2、3號出口皆可抵達。<br>
+                ➢首爾公車：搭乘綠色的支線公車【鐘路 02】公車到北村韓屋村站／敦美藥店站下車。</p>
+                <p><div class="image-gallery">
+                    <img src="images/北村韓屋村.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="北村韓屋村">
+                    <img src="images/北村韓屋村-1.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="北村韓屋村-2">
+                </div></p>
+               <h3 style="text-shadow:3px 2px 3px  hwb(160 19% 34%)"><dt id="明洞">明洞</dt></h3>
+                <p style="text-indent:1cm;font:18px 標楷體">可說是韓國旅遊的入門景點，整個明洞商圈聚集了各大化妝品與服飾品牌，再加上韓國美食、小吃，還有各式韓國在地體驗，在首爾眾多景點中有著其不敗的地位。</p>
+                <h4 style="font:19px 標楷體"><b>交通</b></h4>
+                <table>
+                    <tr>
+                        <th>機場巴士 6001</th>
+                        <th>
+                            ➢ 仁川T1發車首末班時間：平日5:30、23:05；假日5:40、23:05<br>
+                            ➢ 車資：15,000韓元<br>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>機場巴士 6015</th>
+                        <th>
+                            ➢ 仁川T1發車首末班時間：平日5:45、23:15；假日6:05、23:15<br>
+                            ➢ 車資：15,000韓元
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>機場巴士 6701</th>
+                        <th>
+                            ➢ 仁川T1發車首末班時間：4:53、22:50<br>
+                            ➢ 車資：16,000韓元
+                        </th>
+                    </tr>
+                </table>
+                <h4 style="font:19px 標楷體"><b>必逛景點</b></h4>
+                <ul>
+                    <h4 style="font:19px 標楷體"><li>明洞大聖堂</li></h4>
+                     <p style="text-indent:1cm;font:17px 標楷體">非常純粹的<font color="red">哥德式建築</font>，在設計時屏除掉不必要的裝飾，讓它呈現出哥德式最完美純粹的樣子。而教堂裡頭不同於外觀的純粹，有著相當華麗的一面，
+                        尤其是為了向不識字者傳達教義而製作的彩繪玻璃窗，為這座教堂增添了藝術的價值。</p>
+                     <p style="font:18px 標楷體">➢ 地圖</p>
+                     <div class="m-image-gallery">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3162.7438932140435!2d126.9809358!3d37.5610973!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e54c5068b3%3A0x44b42da266a7c893!2z5aSp5Li75pWZ5pyD6aaW54i-57i95pWZ5Y2A6IGW5q-N54Sh5p-T5Y6f572q5Li75pWZ5bqn5aCCKOaYjua0nuiBluWggik!5e0!3m2!1szh-TW!2stw!4v1735065444480!5m2!1szh-TW!2stw" width="450" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <img src="images/明洞大聖堂.jpg" width="350" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="明洞大聖堂">
+                     </div>
+                     <p style="font:18px 標楷體">➢ 營業時間</p>
+                      <p style="font:17px 標楷體">► 週二～五 9:00 – 19:00  週六 9:00 – 19:00<br>
+                         ► 週日7:00 – 21:00  週一不營業
+                      </p>
+                     <h4 style="font:19px 標楷體"><li>普信閣</li></h4>
+                      <p style="text-indent:1cm;font:17px 標楷體">普信閣的二樓有著大大的鐘，在朝鮮時期是用來向百姓報時的，而如今則是<font color="red">每年跨年時作為祈福使用</font>。</p>
+                      <p style="font:18px 標楷體">➢ 地圖</p>
+                      <div class="m-image-gallery">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3162.367983753116!2d126.981646!3d37.5699517!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e927b70aa5%3A0x41fbcab49144ffcd!2z5pmu5L-h6Zaj!5e0!3m2!1szh-TW!2stw!4v1735066204932!5m2!1szh-TW!2stw" width="450" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <img src="images/普信閣.jpg" width="350" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="普信閣">
+                     </div>
+                    <h4 style="font:19px 標楷體"><li>明洞趣味路</li></h4>
+                     <p style="text-indent:1cm;font:17px 標楷體">明洞這條名為「趣味路」的路線由五顏六色的插畫點綴，有一種獨身於這繁雜的明洞的清新感。在成為趣味路之前，這條路本來就是觀光路線之一，
+                        不過後來漸漸沒落了。而在2013年時，包含創作出《未生》、《與神同行》的知名漫畫作家們在內，由超過70名的漫畫家無償提供了他們的作品內容。</p>
+                     <p style="font:18px 標楷體">➢ 地圖</p>
+                     <div class="m-image-gallery">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1581.384726174346!2d126.98548919999999!3d37.56049519999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2f096d907db%3A0xbfc98fd614faa603!2sJaemilo!5e0!3m2!1szh-TW!2stw!4v1735066697384!5m2!1szh-TW!2stw" width="450" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <img src="images/明洞趣味路.jpg" width="350" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="明洞趣味路">
+                     </div>
+                </ul>
+              <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="釜山">釜山</dt></li></h2>
+               <h3 style="text-shadow:3px 2px 3px  hwb(160 19% 34%)">樂天世界</h3>
+                <p style="text-indent:1cm;font:17px 標楷體"><font color="red">一半以上是在室內</font>，不管颳風下雨都可以玩得很開心，附近還有樂天免稅店、樂天百貨、樂天超市、樂天世界塔等觀光購物景點，構成一個範圍很大的娛樂天堂，
+                    更棒是它就在首爾市裡，搭地鐵就能來玩很方便。</p>
+                <p style="font:18px 標楷體">➢ 營業時間</p>
+                 <p style="font:17px 標楷體">週一至週四10:00~20:00<br>
+                    週五至週日10:00~20:30
+                </p>
+                <p style="font:18px 標楷體">➢ 門票</p>
+                <a href="https://www.kkday.com/zh-tw/product/2948-seoul-lotte-world-ticket-magic-pass-lotte-world-aquarium-ticket-south-korea?cid=2810"  target="_blank">票價</a> 👈詳細票價資料
+                <p><div class="image-gallery">
+                    <img src="images/樂天世界.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="樂天世界">
+                    <img src="images/樂天世界-1.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="樂天世界-2">
+                </div></p>
+            </ol>
+            <br>
+            <hr>
+           <h1 style="text-shadow:3px 2px 3px rgb(0, 128, 255)"><dt id="中國">中國</dt></h1>
+            <ol type="A">
+                <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="北京">北京</dt></li></h2>
+                 <h3 style="text-shadow:3px 2px 3px hwb(160 19% 34%)">慕田峪長城</h3>
+                  <p style="text-indent:1cm;font:18px 標楷體"><font color="red">是中國萬里長城的其中著名一段</font>，位於首都北京市懷柔區的軍都山中，是明長城北京段的重要組成部分，也是北京旅遊的一個勝地，2002年被評為4A級景區，<br>2011年被評為國家5A級旅遊景區，現仍有一部分尚未開發，不對遊客開放。每年都會有大量中外遊客慕名攀登。</p>
+                  <h4 style="font:19px 標楷體"><b>➢ 門票</b></h4>
+                  <p style="font:18px 標楷體">►成人票45人民幣，兒童票25人民幣<br>
+                  ►長城索道成人往返票80人民幣，兒童40人民幣 ; 索道單程票成人60人民幣，兒童30人民幣<br>
+                  ►施比得滑道成人往返80人民幣，兒童50人民幣 ; 施比得滑道成人單程60人民幣。</p>
+                  <h4 style="font:19px 標楷體"><b>➢ 開放時間</b></h4>
+                  <p style="font:18px 標楷體">夏季7:00-18:30 ; 冬季7:30-17:30</p>
+                  <h4 style="font:19px 標楷體"><b>➢ 交通</b></h4>
+                  <ul style="font:18px 標楷體">
+                    <li>可在東直門長途車站乘坐公車867路旅遊專線車直達慕田峪長城，867路旅遊專線車於每年3月15日-11月15日期間開通，<br>早上7:00、8:00兩班車從東直門發車，下午14:00、16:00兩班由慕田峪長城返程。</li>
+                    <li>在東直門長途車站乘坐公車916路可達懷柔汽車站，出站後換乘H24路懷柔-興隆城線，可達慕田峪長城。</li>
+                  </ul>
+                  <p><div class="image-gallery">
+                    <img src="images/長城.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="長城">
+                    <img src="images/長城-1.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="長城-2">
+                   </div></p>
+                  <h2 style="text-shadow:3px 2px 3px rgb(60, 142, 224)"><li><dt id="上海">上海</dt></li></h2>
+                 <h3 style="text-shadow:3px 2px 3px  hwb(160 19% 34%)">東方明珠</h3>
+                  <p style="text-indent:1cm;font:18px 標楷體">於1990年開始建造至1994年建置完成，現<font color="red">已成為「90年代上海十大新景觀」及「十佳景點」之一</font>，更是中國大陸首批4A級的旅遊景點；東方明珠塔集廣播電視發佈、
+                    觀光娛樂、住宿餐飲、會展及購物等設施於一體，是21世紀上海市的標誌性建築之一，吸引不少來上海旅遊的觀光人士慕名前來一探究竟。</p>
+                  <h4 style="font:19px 標楷體"><b>➢ 開放時間</b></h4>
+                  <p style="font:18px 標楷體">AM08：30—PM21：30</p>
+                  <h4 style="font:19px 標楷體"><b>➢ 提供活動</b></h4>
+                  <p style="font:18px 標楷體">乘坐東方明珠浦江遊覽船沿江暢遊</p>
+                  <h4 style="font:19px 標楷體"><b>➢ 費用</b></h4>
+                   <p style="font:18px 標楷體">
+                    ►A票：太空艙(安排專員導覽)+上球體+下球體+陳列館 CNY$180元<br>
+                    ►B票：上球體+下球體+陳列館 CNY$160元<br>
+                    ►C票：上球體+陳列館 CNY$120元
+                   </p>
+                  <h4 style="font:19px 標楷體"><b>➢ 交通</b></h4>
+                   <p style="font:18px 標楷體">
+                    ►公車：搭乘81、82、85、870、871、872、輪渡陸金線等，即可到達上海東方明珠塔。<br>
+                    ►地鐵：搭乘地鐵至『陸家嘴站』，即可到達上海東方明珠塔。
+                   </p>
+                   <p><div class="image-gallery">
+                    <img src="images/東方明珠.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="東方明珠">
+                    <img src="images/東方明珠-1.jpg" width="370" alt="吉卜力美術館的入口與周邊綠化景色" style="border-style:solid; border-width:6px;" title="東方明珠-2">
+                   </div></p>
+            </ol>
+        </div>
+    <footer>
+        <div class="footer" id="page-bottom">
+            <h3><p>以上是我想去的亞洲景點</p></h3>
+            <p>製作人 : 林靖庭</p>
+            <a href="index.html" class="footer-link">回主頁</a>
+        </div>
+    </footer>
+
+    <div class="sidebar">
+        <div class="toggle">☰</div>
+        <div class="content"style="font:italic 20px/25px 標楷體">
+            <ul>
+                <h2><li><a href="#page-top"><span style="color:#fff;">頁首</span></a></li></h2>
+                <h2><li><a href="#日本"><span style="color:#fff;">日本</span></a></li></h2>
+                <ol type="1">
+                    <h3><li><a href="#大阪"><span style="color:#fff;">大阪</span></a></li></h3>
+                    <h3><li><a href="#東京"><span style="color:#fff;">東京</span></a></li></h3>
+                    <h3><li><a href="#京都"><span style="color:#fff;">京都</span></a></li></h3>
+                </ol>
+                <h2><li><a href="#韓國"><span style="color:#fff;">韓國</span></a></li></h2>
+                <ol type="1">
+                    <h3><li><a href="#首爾"><span style="color:#fff;">首爾</span></a></li></h3>
+                    <h3><li><a href="#釜山"><span style="color:#fff;">釜山</span></a></li></h3>
+                </ol>
+                <h2><li><a href="#中國"><span style="color:#fff;">中國</span></a></li></h2>
+                <ol type="1">
+                    <h3><li><a href="#北京"><span style="color:#fff;">北京</span></a></li></h3>
+                    <h3><li><a href="#上海"><span style="color:#fff;">上海</span></a></li></h3>
+                </ol>
+                <h2><li><a href="#page-bottom"><span style="color:#fff;">頁尾</span></a></li></h2>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('#mobile-menu');
+        const navList = document.querySelector('.nav-list');
+
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
+

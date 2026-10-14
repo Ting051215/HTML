@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站架構</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: grid;
+            grid-template-areas:
+                "header"
+                "body"
+                "footer";
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            background-color: #f4e3c1;
+            text-align: center;
+            padding: 1em;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        main {
+            grid-area: body;
+            background-color: #fff4e6;
+            padding: 1em;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #f4e3c1;
+            text-align: center;
+            padding: 1em;
+        }
+        .footer-link {
+            display: inline-block;
+            background-color: hsl(148, 73%, 34%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            background-color: hsl(123, 60%, 31%);
+        }
+        img {
+            margin: 0 30px 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>網站架構</header>
+        <main>
+            <h1>index(主頁)</h1>
+                <img src="images/網站架構-index.png" style="float:left; width:500px; margin-left:30px;">
+                <h2>header</h2>
+                    <p>包含了主標題、導覽列、GIF動圖，其中若游標移至導覽列中的文字時，其文字會放大。而GIF動圖上，我加上了其他的文字。</p>
+                <h2>body</h2>
+                <ul>
+                    <h3><li>右邊上半部分</li></h3>
+                        <p>各洲介紹 : 各個項目是可以點選的，點選後內容會顯示出來。</p>
+                    <h3><li>右邊下半部分</li></h3>
+                        <p>My Favorite : 我用表格的方式陳列景點，而各個項目的標題是可以點選的，會連至其他html網頁。</p>
+                    <h3><li>左邊上半部分</li></h3>
+                        <p>目錄 : 各個項目的連結是頁內連結。</p>
+                    <h3><li>左邊下半部分</li></h3>
+                        <p>影片解說 : 此區域的連結點選後，會連至YT</p>
+                </ul>
+                <h2>footer</h2>
+                    <p>我做了"網站架構"和"推薦網站"的連結，可連至其他html網頁。
+                <h2>sidebar</h2>
+                    <p>我新增了類似側邊的導覽列，不用滑至頁面最上方，就能點選想看的部分。</p>
+                <br>
+                <br>
+            <h1>亞洲</h1>
+                <img src="images/網站架構-亞洲.png" style="float:right; width:500px; margin-right:30px;">
+                <h2>header</h2>
+                    <p>包含了主標題、導覽列和輪播圖片，其中若游標移至導覽列中的文字時，會出現下拉選單，而裡面項目的背景也會改變顏色。<br>我還添加了簡易的響應式。</p>
+                <h2>body</h2>
+                    <ul>
+                        <li>此區域中的圖片，我都添加了提示在裡面。</li>
+                        <li>在日本道頓堀必去景點，我利用4個卡片的形式來呈現。</li>
+                        <li>日本富士山中的圖片，我添加了連結在裡面，點選後會跳至其他網站。</li>
+                        <li>韓國明洞中的必逛景點，我添加了地圖在其中</li>
+                    </ul>
+                <h2>footer</h2>
+                    <p>我做了一個方格加上圓角的圖案，且可以點選，點選後可回到最初的index檔</p>
+                <h2>sidebar</h2>
+                    <p>我新增了類似側邊的導覽列，不用滑至頁面最上方，就能點選想看的部分。</p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            <h1>北美洲、南美洲、歐洲 | 大洋洲、非洲</h1>
+                <img src="images/網站架構-北美洲.png" style="float:left; width:500px; margin-left:10px;">
+                <img src="images/網站架構-大洋洲.png" style="float:left; width:500px;">
+                <h2>北美洲、南美洲、歐洲</h2>
+                    <p>大致上和亞洲的html相同，只在於缺少了地圖、卡片的功能</p>
+                <h2>大洋洲、非洲</h2>
+                    <p>相比北美洲、南美洲、歐洲的檔案，我添加了卡片的功能，而且側邊有卷軸可以滑動</p>
+                
+            
+        </main>
+        <footer>
+            <p>製作人 : 林靖庭</p>
+            <a href="index.html" class="footer-link">回主頁</a>
+        </footer>
+    </div>
+</body>
+</html>
+
+
+
+
